@@ -67,6 +67,26 @@ public class Main extends ApplicationAdapter {
         batch.setProjectionMatrix(camera.combined);
         shape.setProjectionMatrix(camera.combined);
 
+        if(Gdx.input.isKeyPressed(Input.Keys.Z)) {
+            points = dvd.predict();
+
+            shape.begin(ShapeRenderer.ShapeType.Line);
+            for(int i = 0; i < points.size - 1; ++i) {
+
+                if(i <= 2) {
+                    shape.setColor(Color.ORANGE);
+                } else {
+                    shape.setColor(Color.GREEN);
+                }
+
+                shape.line(points.get(i).asVector(), points.get(i + 1).asVector());
+            }
+            shape.end();
+        } else {
+            if(points.size != 0) {
+                points.clear();
+            }
+        }
 
         batch.begin();
 
@@ -102,26 +122,7 @@ public class Main extends ApplicationAdapter {
             }
         }
 
-        if(Gdx.input.isKeyPressed(Input.Keys.Z)) {
-            points = dvd.predict();
 
-            shape.begin(ShapeRenderer.ShapeType.Line);
-            for(int i = 0; i < points.size - 1; ++i) {
-
-                if(i <= 2) {
-                    shape.setColor(Color.ORANGE);
-                } else {
-                    shape.setColor(Color.GREEN);
-                }
-
-                shape.line(points.get(i).asVector(), points.get(i + 1).asVector());
-            }
-            shape.end();
-        } else {
-            if(points.size != 0) {
-                points.clear();
-            }
-        }
 
         if(initialFrameSkip == Constants.FRAME_BUFFER_MAX) {
             timer.reset();
