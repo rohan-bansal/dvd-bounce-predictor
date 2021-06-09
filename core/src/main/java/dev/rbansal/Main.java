@@ -74,7 +74,7 @@ public class Main extends ApplicationAdapter {
             font.draw(batch, "[x] recalibrate", 20, 100);
             font.draw(batch, "[z]<hold> next 30 bounces", 20, 80);
         font.draw(batch, timeTilCorner, 20, 40);
-        font.draw(batch, bouncesTilCorner, 20, 20);
+//        font.draw(batch, bouncesTilCorner, 20, 20);
 
         batch.end();
 
