@@ -10,6 +10,7 @@ import com.badlogic.gdx.graphics.g2d.BitmapFont;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.badlogic.gdx.graphics.glutils.ShapeRenderer;
 import com.badlogic.gdx.utils.DelayedRemovalArray;
+import com.badlogic.gdx.utils.viewport.*;
 
 
 public class Main extends ApplicationAdapter {
@@ -17,6 +18,7 @@ public class Main extends ApplicationAdapter {
     OrthographicCamera camera;
     SpriteBatch batch;
     ShapeRenderer shape;
+    Viewport viewport;
 
     DVD dvd;
     FrameTimer timer;
@@ -36,8 +38,9 @@ public class Main extends ApplicationAdapter {
         font = new BitmapFont(Gdx.files.internal("ari2.fnt"));
         font.getData().setScale(0.5f);
 
-        camera = new OrthographicCamera(Gdx.graphics.getWidth(), Gdx.graphics.getHeight());
-        camera.setToOrtho(false);
+        camera = new OrthographicCamera();
+        camera.setToOrtho(false, Gdx.graphics.getWidth(), Gdx.graphics.getHeight());
+        viewport = new ScreenViewport(camera);
 
         batch = new SpriteBatch();
         shape = new ShapeRenderer();
@@ -68,12 +71,20 @@ public class Main extends ApplicationAdapter {
 
         dvd.draw(batch);
 
+            font.draw(batch, "[x] recalibrate", 20, 100);
+            font.draw(batch, "[z]<hold> next 30 bounces", 20, 80);
         font.draw(batch, timeTilCorner, 20, 40);
         font.draw(batch, bouncesTilCorner, 20, 20);
 
         batch.end();
 
-        if(Gdx.input.isKeyPressed(Input.Keys.SPACE)) {
+        if(Gdx.input.isKeyJustPressed(Input.Keys.X)) {
+            if(timer.isSafe()) {
+                timer.reset();
+            }
+        }
+
+        if(Gdx.input.isKeyPressed(Input.Keys.Z)) {
             points = dvd.predict();
 
             shape.begin(ShapeRenderer.ShapeType.Line);
@@ -115,9 +126,7 @@ public class Main extends ApplicationAdapter {
 
     @Override
     public void resize(int width, int height) {
-        super.resize(width, height);
-        camera.viewportWidth = width;
-        camera.viewportHeight = height;
+        viewport.update(width, height);
         dvd.resize(width, height);
     }
 }

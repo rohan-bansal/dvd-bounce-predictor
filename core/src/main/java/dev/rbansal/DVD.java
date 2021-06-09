@@ -35,14 +35,13 @@ public class DVD {
         tintColor = new Color();
         generator = new Random();
 
-        position = new Vector2(
-                generator.nextInt(this.width),
-                generator.nextInt(this.height));
+        position = new Vector2(0, 0);
+//                generator.nextInt(this.width),
+//                generator.nextInt(this.height));
         startingPoint = new Vector2(position);
 
         speed = new Vector2(Constants.MOVE_SPEED_PX, Constants.MOVE_SPEED_PX);
 
-//        randomTintImage();
     }
 
     private void randomTintImage() {
