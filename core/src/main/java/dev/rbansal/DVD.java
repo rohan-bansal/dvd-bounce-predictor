@@ -6,6 +6,7 @@ import com.badlogic.gdx.graphics.Pixmap;
 import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.graphics.g2d.Sprite;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
+import com.badlogic.gdx.math.Rectangle;
 import com.badlogic.gdx.math.Vector2;
 import com.badlogic.gdx.utils.DelayedRemovalArray;
 
@@ -35,7 +36,7 @@ public class DVD {
         tintColor = new Color();
         generator = new Random();
 
-        position = new Vector2(0, 0);
+        position = new Vector2(0, Gdx.graphics.getHeight() - dvd.getHeight());
 //                generator.nextInt(this.width),
 //                generator.nextInt(this.height));
         startingPoint = new Vector2(position);
@@ -129,6 +130,16 @@ public class DVD {
 
     public Vector2 getSpeed() {
         return speed;
+    }
+
+    public Rectangle getRect() {
+        return new Rectangle(dvd.getX(), dvd.getY(), dvd.getWidth(), dvd.getHeight());
+    }
+
+    public void setSpeed(int speed) {
+        this.speed.x = this.speed.x < 0 ? -speed : speed;
+        this.speed.y = this.speed.y < 0 ? -speed : speed;
+
     }
 
     public Vector2 getSize() {

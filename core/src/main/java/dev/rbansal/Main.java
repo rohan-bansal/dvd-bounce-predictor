@@ -9,6 +9,7 @@ import com.badlogic.gdx.graphics.OrthographicCamera;
 import com.badlogic.gdx.graphics.g2d.BitmapFont;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.badlogic.gdx.graphics.glutils.ShapeRenderer;
+import com.badlogic.gdx.math.Rectangle;
 import com.badlogic.gdx.utils.DelayedRemovalArray;
 import com.badlogic.gdx.utils.viewport.*;
 
@@ -71,9 +72,15 @@ public class Main extends ApplicationAdapter {
 
         dvd.draw(batch);
 
+        if(!new Rectangle(0, 0, 200, 165).overlaps(dvd.getRect())) {
+            font.draw(batch, "[up] increase speed", 20, 160);
+            font.draw(batch, "[down] decrease speed", 20, 140);
+            font.draw(batch, "[c] reset speed", 20, 120);
             font.draw(batch, "[x] recalibrate", 20, 100);
             font.draw(batch, "[z]<hold> next 30 bounces", 20, 80);
-        font.draw(batch, timeTilCorner, 20, 40);
+            font.draw(batch, timeTilCorner, 20, 40);
+        }
+
 //        font.draw(batch, bouncesTilCorner, 20, 20);
 
         batch.end();
@@ -81,6 +88,17 @@ public class Main extends ApplicationAdapter {
         if(Gdx.input.isKeyJustPressed(Input.Keys.X)) {
             if(timer.isSafe()) {
                 timer.reset();
+            }
+        }
+
+        if(Gdx.input.isKeyJustPressed(Input.Keys.C)) {
+            dvd.setSpeed(Constants.MOVE_SPEED_PX);
+        }
+        if(Gdx.input.isKeyJustPressed(Input.Keys.UP)) {
+            dvd.setSpeed(Math.abs(Math.round(dvd.getSpeed().x)) + 1);
+        } else if(Gdx.input.isKeyJustPressed(Input.Keys.DOWN)) {
+            if(Math.abs(dvd.getSpeed().x) > 1) {
+                dvd.setSpeed(Math.abs(Math.round(dvd.getSpeed().x)) - 1);
             }
         }
 
